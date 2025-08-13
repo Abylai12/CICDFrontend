@@ -89,8 +89,10 @@ const Login = ({ login }: LoginProps) => {
           )}
         />
         <p>
-          if you don't have acoount <Link href={"/signup"}>click here</Link>
+          If you don&apos;t have an account{" "}
+          <Link href="/signup">click here</Link>
         </p>
+
         <Button type="submit" data-cy="login-submit">
           Submit
         </Button>
