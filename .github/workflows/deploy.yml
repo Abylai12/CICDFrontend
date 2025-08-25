@@ -24,7 +24,7 @@ jobs:
       # ---------- Frontend Build & Push ----------
       - name: Build and Push Frontend
         run: |
-          docker build -t abylai123/frontend:latest ./frontend
+          docker build -t abylai123/frontend:latest .
           docker push abylai123/frontend:latest
 
       # ---------- Deploy on Server ----------
