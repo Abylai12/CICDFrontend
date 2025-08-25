@@ -1,6 +1,7 @@
 import axios from "axios";
-import { apiURL } from "./api-url";
-
 export const axiosInstance = axios.create({
-  baseURL: `${apiURL}`,
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api/v1`,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });

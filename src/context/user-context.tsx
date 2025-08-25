@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         },
       });
       if (res.status === 200) {
+        console.log("user data", res);
         setUser(res.data);
       }
     } catch (error) {
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    router.push("/home");
+    router.push("/login");
   };
   useEffect(() => {
     if (token) {

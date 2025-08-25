@@ -5,6 +5,7 @@ import Login from "@/components/auth/Login";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "@/utils/axios-instance";
 import { useAuth } from "@/context/user-context";
+import axios, { AxiosError } from "axios";
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +15,7 @@ const Page = () => {
     try {
       setIsLoading(true);
       const res = await axiosInstance.post("/auth/signin", data);
+      console.log("res data", res);
       if (res.status === 200) {
         res.data && localStorage.setItem("token", res.data.token);
         setIsLoading(false);
@@ -23,13 +25,17 @@ const Page = () => {
       } else {
         toast.error("Login failed. Please try again.", res.data.message);
       }
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error("An error occurred during login. Please try again.");
+    } catch (error: unknown) {
+      let message = "An error occurred during login. Please try again.";
+      // ✅ Correct usage
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message;
+      }
+
+      toast.error(message);
+    } finally {
       setIsLoading(false);
     }
-    console.log("Login data:", data);
   };
   return (
     <div data-cy="login-page">

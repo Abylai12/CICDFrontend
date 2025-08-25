@@ -2,6 +2,7 @@
 
 import SignUp from "@/components/auth/SignUp";
 import { axiosInstance } from "@/utils/axios-instance";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
@@ -26,12 +27,17 @@ const Page = () => {
         toast.error("Login failed. Please try again.");
       }
       setIsLoading(false);
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error("An error occurred during login. Please try again.");
+    } catch (error: unknown) {
+      let message = "An error occurred during login. Please try again.";
+      // ✅ Correct usage
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message;
+      }
+
+      toast.error(message);
+    } finally {
       setIsLoading(false);
     }
-    console.log("Login data:", data);
   };
   return (
     <div data-cy="signup-page">
