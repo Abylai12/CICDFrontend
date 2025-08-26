@@ -32,9 +32,10 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_IP }}
-          username: ubuntu
+          username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd ~/my-app
-            docker-compose pull
-            docker-compose up -d frontend_app
+            docker-compose pull frontend
+            docker-compose up -d frontend
+            docker image prune -f
