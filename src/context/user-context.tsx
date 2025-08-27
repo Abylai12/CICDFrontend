@@ -18,6 +18,8 @@ interface AuthContextType {
   setUser: Dispatch<SetStateAction<User | null>>;
   setToken: Dispatch<SetStateAction<string | null>>;
   user: User | null;
+  token: string | null;
+  loading: boolean;
 }
 export const AuthContext = createContext<AuthContextType>({
   getCurrentUser: () => {},
@@ -25,14 +27,18 @@ export const AuthContext = createContext<AuthContextType>({
   setUser: () => {},
   setToken: () => {},
   user: null,
+  token: null,
+  loading: false,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const getCurrentUser = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get("/auth/profile", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,6 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.error(error);
       setUser(null);
     } finally {
+      setLoading(false);
     }
   };
   const logout = () => {
@@ -68,6 +75,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         getCurrentUser,
         setUser,
         user,
+        token,
+        loading,
       }}
     >
       {children}

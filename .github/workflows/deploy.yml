@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -27,15 +27,9 @@ jobs:
           docker build -t abylai123/frontend:latest .
           docker push abylai123/frontend:latest
 
-      # ---------- Deploy on Server ----------
-      - name: SSH to Server and Deploy
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd ~/my-app
-            docker-compose pull frontend
-            docker-compose up -d frontend
-            docker image prune -f
+      # ---------- Deploy with Docker Compose ----------
+      - name: Deploy Frontend Container
+        run: |
+          cd ~/my-app
+          docker-compose up -d frontend
+          docker image prune -f

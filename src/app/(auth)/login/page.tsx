@@ -10,7 +10,7 @@ import axios, { AxiosError } from "axios";
 const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { setToken } = useAuth();
+  const { setToken, setUser } = useAuth();
   const login = async (data: { email: string; password: string }) => {
     try {
       setIsLoading(true);
@@ -20,6 +20,8 @@ const Page = () => {
         res.data && localStorage.setItem("token", res.data.token);
         setIsLoading(false);
         setToken(res.data.token);
+        setUser(res.data.user);
+
         router.push("/home");
         toast.success("Login successful!");
       } else {

@@ -20,7 +20,7 @@ describe("Signup Page", () => {
 
   it("should signup with valid credentials", () => {
     cy.get('[data-cy="signup-name"]').type("testuser1");
-    cy.get('[data-cy="signup-email"]').clear().type("testuser1@gmail.com");
+    cy.get('[data-cy="signup-email"]').type("testuser1@gmail.com");
     cy.get('[data-cy="signup-password"]').type("password123");
     cy.get('[data-cy="signup-submit"]').click();
 
