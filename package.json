@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "copy tsconfig.prod.json tsconfig.json && next build",
+    "build": "cp tsconfig.prod.json tsconfig.json && next build",
     "start": "next start",
     "test": "npx cypress run",
     "lint": "next lint"
